@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebCrypto 3D Powerball Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- PWA 필수 메타태그 -->
+    <meta name="theme-color" content="#222222">
+    <meta name="description" content="WebCrypto 하드웨어 엔트로피 기반 3D 복권 번호 생성기">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="WebCrypto Powerball">
+    
+    <!-- PWA 매니페스트 -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- 아이콘 -->
+    <link rel="icon" type="image/png" sizes="144x144" href="icons/icon-144.png">
+    <link rel="apple-touch-icon" href="icons/icon-144.png">
+    <link rel="shortcut icon" href="icons/favicon.ico">
+    
+    <style>
+        html, body {
+            height: 100%; margin: 0; padding: 0; overflow: hidden; background: #222;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        #generationScreen {
+            flex: 0 0 55%;
+            min-height: 200px;
+            position: relative;
+            background: #222;
+        }
+        #resultContainer {
+            flex: 1 1 45%;
+            background: #181818;
+            color: #fff;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* 🎯 현재 진행 중인 조합 */
+        #currentSection {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #333;
+        }
+        #currentTitle {
+            font-size: 0.9em;
+            color: #888;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        #currentSlots {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        
+        /* 🎯 저장된 조합들 리스트 */
+        #savedSection {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        #savedTitle {
+            font-size: 0.9em;
+            color: #888;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #combinationsList {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        /* 스크롤바 스타일 */
+        #combinationsList::-webkit-scrollbar {
+            width: 6px;
+        }
+        #combinationsList::-webkit-scrollbar-track {
+            background: #333;
+            border-radius: 3px;
+        }
+        #combinationsList::-webkit-scrollbar-thumb {
+            background: #666;
+            border-radius: 3px;
+        }
+        #combinationsList::-webkit-scrollbar-thumb:hover {
+            background: #888;
+        }
+        
+        /* 🎯 조합 카드 스타일 */
+        .combination-card {
+            background: #262626;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+        }
+        .combination-card:hover {
+            background: #2a2a2a;
+            border-color: #555;
+        }
+        .combination-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .combination-number {
+            font-size: 0.8em;
+            color: #aaa;
+            font-weight: bold;
+        }
+        .combination-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .action-btn {
+            background: none;
+            border: 1px solid #555;
+            color: #aaa;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .action-btn:hover {
+            background: #333;
+            color: #fff;
+        }
+        .copy-btn:hover {
+            border-color: #00ffff;
+            color: #00ffff;
+        }
+        .delete-btn:hover {
+            border-color: #ff3333;
+            color: #ff3333;
+        }
+        
+        /* 🎯 번호 슬롯 스타일 */
+        .slots {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+        .slot {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 0.9em;
+            border: 2px solid #00ffff;
+            background: #222;
+            color: #888;
+            transition: all 0.3s;
+        }
+        .slot.filled {
+            background: #00ffff;
+            color: #222;
+        }
+        .slot.pb {
+            border-color: #ff3333;
+        }
+        .slot.pb.filled {
+            background: #ff3333;
+            color: #fff;
+        }
+        
+        /* 현재 조합의 슬롯은 조금 더 크게 */
+        #currentSlots .slot {
+            width: 40px;
+            height: 40px;
+            font-size: 1.1em;
+        }
+        
+        /* 🎯 빈 상태 표시 */
+        .empty-state {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 20px;
+        }
+        
+        /* 🎯 카운터 */
+        .combinations-count {
+            color: #00ffff;
+            font-weight: bold;
+        }
+        
+        /* 🎯 로딩 스피너 */
+        .loading-spinner {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.8);
+            color: #00ffff;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        
+        
+        
+        /* 🎯 간단한 메시지 표시 영역 */
+        #messageDisplay {
+            height: 24px;
+            background: rgba(0, 0, 0, 0.9);
+            color: #00ffff;
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            border-top: 1px solid #333;
+            border-bottom: 1px solid #333;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        @media (max-width: 600px) {
+            #generationScreen { min-height: 160px; }
+            #resultContainer { padding: 12px; }
+            .slots { gap: 6px; }
+            .slot { width: 28px; height: 28px; font-size: 0.8em; }
+            #currentSlots .slot { width: 36px; height: 36px; font-size: 1em; }
+        }
+        
+        /* PWA 설치 프롬프트 */
+        .install-prompt {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #00ffff, #0088ff);
+            color: #000;
+            padding: 12px 16px;
+            border-radius: 8px;
+            text-align: center;
+            z-index: 10000;
+            transform: translateY(100px);
+            transition: transform 0.3s ease;
+            display: none;
+        }
+        .install-prompt.show {
+            display: block;
+            transform: translateY(0);
+        }
+        .install-btn {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            margin: 0 8px;
+            cursor: pointer;
+        }
+        .install-btn:hover {
+            background: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- 로딩 스피너 -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div>🔐 Initializing WebCrypto...</div>
+    </div>
+    
+    <!-- PWA 설치 프롬프트 -->
+    <div class="install-prompt" id="installPrompt">
+        <div>📱 Install WebCrypto Powerball as an app!</div>
+        <button class="install-btn" id="installBtn">Install</button>
+        <button class="install-btn" id="dismissBtn">Not now</button>
+    </div>
+    
+    <div id="generationScreen"></div>
+    
+    <!-- 🎯 간단한 메시지 표시 영역 -->
+    <div id="messageDisplay"></div>
+    
+    <div id="resultContainer">
+        <!-- 현재 진행 중인 조합 -->
+        <div id="currentSection">
+            <div id="currentTitle">Current Combination</div>
+            <div id="currentSlots"></div>
+        </div>
+        
+        <!-- 저장된 조합들 -->
+        <div id="savedSection">
+            <div id="savedTitle">
+                Saved Combinations 
+                <span class="combinations-count" id="combinationsCount">0</span>
+            </div>
+            <div id="combinationsList">
+                <div class="empty-state">No combinations saved yet</div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js",
+            "gsap": "https://cdn.jsdelivr.net/npm/gsap@3.12.2/index.js"
+        }
+    }
+    </script>
+    <script type="module">
+        import { ThreeEngine } from './js/three-engine.js';
+        
+        // 🎯 다중 조합 관리 시스템
+        class MultiCombinationManager {
+            constructor() {
+                this.savedCombinations = this.loadFromLocalStorage();
+                this.currentCombination = { numbers: [], powerball: null };
+                this.engine = null;
+                
+                
+            }
+            
+            // 로컬 스토리지에서 조합 로드
+            loadFromLocalStorage() {
+                try {
+                    const saved = localStorage.getItem('webcrypto-powerball-combinations');
+                    return saved ? JSON.parse(saved) : [];
+                } catch (error) {
+                    console.error('Failed to load combinations from localStorage:', error);
+                    return [];
+                }
+            }
+            
+            // 로컬 스토리지에 조합 저장
+            saveToLocalStorage() {
+                try {
+                    localStorage.setItem('webcrypto-powerball-combinations', JSON.stringify(this.savedCombinations));
+                } catch (error) {
+                    console.error('Failed to save combinations to localStorage:', error);
+                }
+            }
+            
+            // 현재 진행 중인 조합 업데이트
+            updateCurrentCombination(numbers, powerball) {
+                this.currentCombination = { numbers: [...(numbers || [])], powerball };
+                this.renderCurrentSlots();
+            }
+            
+            // 조합 저장
+            saveCombination(numbers, powerball) {
+                if (numbers.length === 5 && powerball) {
+                    const combination = {
+                        id: Date.now(),
+                        numbers: [...numbers],
+                        powerball,
+                        timestamp: new Date()
+                    };
+                    this.savedCombinations.unshift(combination);
+                    this.saveToLocalStorage();
+                    this.renderSavedCombinations();
+                    this.updateCounter();
+                    
+                    // 현재 조합 리셋
+                    this.currentCombination = { numbers: [], powerball: null };
+                    this.renderCurrentSlots();
+                    
+                    console.log('💾 Combination saved:', combination);
+                }
+            }
+            
+            // 조합 삭제
+            deleteCombination(id) {
+                this.savedCombinations = this.savedCombinations.filter(c => c.id !== id);
+                this.saveToLocalStorage();
+                this.renderSavedCombinations();
+                this.updateCounter();
+            }
+            
+            // 조합 복사
+            copyCombination(numbers, powerball) {
+                const text = `${numbers.join(', ')} | PB: ${powerball}`;
+                navigator.clipboard.writeText(text).then(() => {
+                    this.showToast('📋 Copied to clipboard!');
+                }).catch(() => {
+                    this.showToast('❌ Copy failed');
+                });
+            }
+            
+            // 토스트 메시지
+            showToast(message) {
+                const toast = document.createElement('div');
+                toast.textContent = message;
+                toast.style.cssText = `
+                    position: fixed; top: 20px; right: 20px; z-index: 9999;
+                    background: #333; color: #fff; padding: 12px 16px;
+                    border-radius: 8px; font-size: 0.9em;
+                    animation: slideIn 0.3s ease;
+                `;
+                document.body.appendChild(toast);
+                setTimeout(() => {
+                    toast.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => toast.remove(), 300);
+                }, 2000);
+            }
+            
+            // 현재 조합 슬롯 렌더링
+            renderCurrentSlots() {
+                const slotsDiv = document.getElementById('currentSlots');
+                slotsDiv.innerHTML = '';
+                
+                // 5개 메인 번호 슬롯
+                for(let i = 0; i < 5; i++) {
+                    const slot = document.createElement('div');
+                    slot.className = 'slot';
+                    if(this.currentCombination.numbers[i]) {
+                        slot.classList.add('filled');
+                        slot.textContent = this.currentCombination.numbers[i];
+                    } else {
+                        slot.textContent = '-';
+                    }
+                    slotsDiv.appendChild(slot);
+                }
+                
+                // 파워볼 슬롯
+                const pbSlot = document.createElement('div');
+                pbSlot.className = 'slot pb';
+                if(this.currentCombination.powerball) {
+                    pbSlot.classList.add('filled');
+                    pbSlot.textContent = this.currentCombination.powerball;
+                } else {
+                    pbSlot.textContent = '-';
+                }
+                slotsDiv.appendChild(pbSlot);
+            }
+            
+            // 저장된 조합들 렌더링
+            renderSavedCombinations() {
+                const listDiv = document.getElementById('combinationsList');
+                
+                if (this.savedCombinations.length === 0) {
+                    listDiv.innerHTML = '<div class="empty-state">No combinations saved yet</div>';
+                    return;
+                }
+                
+                listDiv.innerHTML = '';
+                this.savedCombinations.forEach((combination, index) => {
+                    const card = this.createCombinationCard(combination, index + 1);
+                    listDiv.appendChild(card);
+                });
+            }
+            
+            // 조합 카드 생성
+            createCombinationCard(combination, number) {
+                const card = document.createElement('div');
+                card.className = 'combination-card';
+                
+                const timestamp = new Date(combination.timestamp).toLocaleTimeString('ko-KR', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                card.innerHTML = `
+                    <div class="combination-header">
+                        <span class="combination-number">#${number} (${timestamp})</span>
+                        <div class="combination-actions">
+                            <button class="action-btn copy-btn" onclick="manager.copyCombination([${combination.numbers}], ${combination.powerball})">
+                                📋 Copy
+                            </button>
+                            <button class="action-btn delete-btn" onclick="manager.deleteCombination(${combination.id})">
+                                🗑️ Delete
+                            </button>
+                        </div>
+                    </div>
+                    <div class="slots">
+                        ${combination.numbers.map(num => `<div class="slot filled">${num}</div>`).join('')}
+                        <div class="slot pb filled">${combination.powerball}</div>
+                    </div>
+                `;
+                
+                return card;
+            }
+            
+            // 카운터 업데이트
+            updateCounter() {
+                const counter = document.getElementById('combinationsCount');
+                counter.textContent = this.savedCombinations.length;
+            }
+                
+                
+                
+            
+            
+            // 게임 리셋 (새로운 조합 시작)
+            resetGame() {
+                if (this.engine) {
+                    this.engine.resetGame();
+                }
+                this.currentCombination = { numbers: [], powerball: null };
+                this.renderCurrentSlots();
+            }
+        }
+        
+        // PWA 설치 프롬프트 관리
+        class PWAManager {
+            constructor() {
+                this.deferredPrompt = null;
+                this.init();
+            }
+            
+            init() {
+                // PWA 설치 이벤트 처리
+                window.addEventListener('beforeinstallprompt', (e) => {
+                    e.preventDefault();
+                    this.deferredPrompt = e;
+                    this.showInstallPrompt();
+                });
+                
+                // 설치 버튼 클릭
+                document.getElementById('installBtn').addEventListener('click', () => {
+                    this.installApp();
+                });
+                
+                // 나중에 버튼 클릭
+                document.getElementById('dismissBtn').addEventListener('click', () => {
+                    this.hideInstallPrompt();
+                });
+                
+                // 이미 설치된 경우 프롬프트 숨기기
+                window.addEventListener('appinstalled', () => {
+                    this.hideInstallPrompt();
+                    console.log('📱 PWA installed successfully');
+                });
+            }
+            
+            showInstallPrompt() {
+                const prompt = document.getElementById('installPrompt');
+                prompt.classList.add('show');
+            }
+            
+            hideInstallPrompt() {
+                const prompt = document.getElementById('installPrompt');
+                prompt.classList.remove('show');
+            }
+            
+            async installApp() {
+                if (this.deferredPrompt) {
+                    this.deferredPrompt.prompt();
+                    const { outcome } = await this.deferredPrompt.userChoice;
+                    console.log(`PWA install outcome: ${outcome}`);
+                    this.deferredPrompt = null;
+                    this.hideInstallPrompt();
+                }
+            }
+        }
+        // 🎯 간단한 print 함수 (콘솔 로그 인터셉트 없이 안전하게)
+        function print(message) {
+            console.log('🟢 print 함수 호출됨:', message);
+            const display = document.getElementById('messageDisplay');
+            if (!display) {
+                console.log('❌ messageDisplay 요소를 찾을 수 없음');
+                return;
+            }
+            
+            // 50자 제한 적용
+            let shortMessage = message.length > 50 ? message.substring(0, 47) + '...' : message;
+            
+            // 🎯 강력한 시각적 피드백
+            display.textContent = shortMessage;
+            display.style.color = '#ffff00';  // 밝은 노란색으로 변경
+            display.style.backgroundColor = '#333';  // 배경색 추가
+            display.style.fontWeight = 'bold';  // 굵게
+            display.style.border = '2px solid #ffff00';  // 테두리 추가
+            display.style.animation = 'blink 0.5s ease-in-out 3';  // 깜빡임 효과
+            
+            console.log('✅ 메시지 업데이트 완료:', shortMessage);
+            
+            // 3초 후 원래 상태로 복귀 (변화를 명확히 보기 위해)
+            setTimeout(() => {
+                display.textContent = '🔐 Ready to generate...';
+                display.style.color = '#00ffff';
+                display.style.backgroundColor = 'transparent';
+                display.style.fontWeight = 'normal';
+                display.style.border = 'none';
+                display.style.animation = '';
+                console.log('🔄 기본 상태로 복귀');
+            }, 3000);
+        }
+        
+        // 전역 함수로 등록 (다른 파일에서 사용 가능)
+        window.print = print;
+        console.log('🟢 window.print 등록 완료:', typeof window.print); // 디버깅용
+        
+        
+        // 전역 매니저 인스턴스들
+        const manager = new MultiCombinationManager();
+        const pwaManager = new PWAManager();
+        window.manager = manager; // 버튼 이벤트에서 접근 가능하도록
+        
+        // Three.js 엔진 초기화
+        async function main() {
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            loadingSpinner.style.display = 'block';
+            
+            try {
+                const engine = new ThreeEngine();
+                manager.engine = engine;
+                
+                // 볼 클릭 시 현재 조합 업데이트
+                engine.onBallClick = ({ numbers, powerball }) => {
+                    console.log('onBallClick:', numbers, powerball);
+                    manager.updateCurrentCombination(numbers, powerball);
+                };
+                
+                // 게임 완료 시 조합 저장 후 새 게임 시작
+                engine.onGameComplete = ({ numbers, powerball }) => {
+                    console.log('onGameComplete:', numbers, powerball);
+                    manager.saveCombination(numbers, powerball);
+                    
+                    // 3초 후 자동으로 새 게임 시작
+                    setTimeout(() => {
+                        manager.resetGame();
+                        manager.showToast('🎯 Ready for next combination!');
+                    }, 3000);
+                };
+                
+                await engine.init();
+                engine.startRendering();
+                
+                loadingSpinner.style.display = 'none';
+                console.log('🎯 WebCrypto 3D Powerball System loaded successfully!');
+                
+            } catch (error) {
+                console.error('❌ Failed to initialize:', error);
+                loadingSpinner.innerHTML = '<div style="color: #ff3333;">❌ Failed to load. Please refresh.</div>';
+            }
+        }
+        
+        // CSS 애니메이션 추가
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+            @keyframes blink {
+                0%, 50%, 100% { opacity: 1; }
+                25%, 75% { opacity: 0.3; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // 초기화
+        main();
+        manager.renderCurrentSlots();
+        manager.renderSavedCombinations();
+        manager.updateCounter();
+    </script>
+    
+    <!-- Service Worker Registration (PWA 필수) -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => {
+                        console.log('🔧 Service Worker registered successfully');
+                        
+                        // 업데이트 확인
+                        registration.addEventListener('updatefound', () => {
+                            console.log('🔄 New service worker found, preparing update...');
+                        });
+                    })
+                    .catch(error => {
+                        console.error('❌ Service Worker registration failed:', error);
+                    });
+            });
+        }
+        
+        // 온라인/오프라인 상태 감지
+        window.addEventListener('online', () => {
+            console.log('🌐 Back online');
+        });
+        
+        window.addEventListener('offline', () => {
+            console.log('📴 Gone offline');
+        });
+    </script>
+</body>
+</html>

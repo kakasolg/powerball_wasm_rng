@@ -1,0 +1,451 @@
+/**
+ * 🌌 Quantum Theme CSS
+ * Powerball Superposition - Quantum-inspired color palette and effects
+ */
+
+:root {
+    /* Quantum Color Palette */
+    --quantum-primary: #667eea;
+    --quantum-secondary: #764ba2;
+    --quantum-accent: #00d4ff;
+    --quantum-gold: #ffd700;
+    --quantum-red: #ff4757;
+    --quantum-green: #2ed573;
+    --quantum-dark: #1a1a1a;
+    --quantum-light: #f8f9fa;
+    
+    /* Quantum Gradients */
+    --quantum-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --quantum-accent-gradient: linear-gradient(45deg, #00d4ff, #ffd700);
+    --quantum-danger-gradient: linear-gradient(45deg, #ff4757, #ff6b6b);
+    
+    /* Typography */
+    --quantum-font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    
+    /* Spacing */
+    --quantum-spacing-xs: 0.25rem;
+    --quantum-spacing-sm: 0.5rem;
+    --quantum-spacing-md: 1rem;
+    --quantum-spacing-lg: 1.5rem;
+    --quantum-spacing-xl: 2rem;
+    --quantum-spacing-xxl: 3rem;
+    
+    /* Shadows */
+    --quantum-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --quantum-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --quantum-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --quantum-shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+    
+    /* Border Radius */
+    --quantum-radius-sm: 0.25rem;
+    --quantum-radius-md: 0.5rem;
+    --quantum-radius-lg: 1rem;
+    --quantum-radius-xl: 1.5rem;
+    --quantum-radius-full: 9999px;
+}
+
+/* Global Quantum Styles */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--quantum-font-family);
+    background: var(--quantum-gradient);
+    color: var(--quantum-light);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Quantum Buttons */
+.quantum-btn {
+    background: var(--quantum-accent-gradient);
+    border: none;
+    color: var(--quantum-dark);
+    padding: var(--quantum-spacing-md) var(--quantum-spacing-lg);
+    border-radius: var(--quantum-radius-full);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--quantum-shadow-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.quantum-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--quantum-shadow-lg);
+}
+
+.quantum-btn:active {
+    transform: translateY(0);
+    box-shadow: var(--quantum-shadow-sm);
+}
+
+.quantum-btn.secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--quantum-light);
+    backdrop-filter: blur(10px);
+}
+
+.quantum-btn.danger {
+    background: var(--quantum-danger-gradient);
+    color: white;
+}
+
+/* Quantum Cards */
+.quantum-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--quantum-radius-lg);
+    padding: var(--quantum-spacing-lg);
+    box-shadow: var(--quantum-shadow-lg);
+    transition: all 0.3s ease;
+}
+
+.quantum-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--quantum-shadow-xl);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Quantum Input Fields */
+.quantum-input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--quantum-radius-md);
+    padding: var(--quantum-spacing-md);
+    color: var(--quantum-light);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.quantum-input:focus {
+    outline: none;
+    border-color: var(--quantum-accent);
+    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.2);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.quantum-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Quantum Text Styles */
+.quantum-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: var(--quantum-accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--quantum-spacing-md);
+}
+
+.quantum-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin-bottom: var(--quantum-spacing-lg);
+}
+
+.quantum-text-accent {
+    color: var(--quantum-accent);
+    font-weight: 600;
+}
+
+.quantum-text-gold {
+    color: var(--quantum-gold);
+    font-weight: 600;
+}
+
+/* Quantum Animations */
+@keyframes quantumPulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+}
+
+@keyframes quantumFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes quantumSpin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes quantumGlow {
+    0%, 100% {
+        box-shadow: 0 0 5px var(--quantum-accent);
+    }
+    50% {
+        box-shadow: 0 0 20px var(--quantum-accent), 0 0 30px var(--quantum-accent);
+    }
+}
+
+.quantum-pulse {
+    animation: quantumPulse 2s ease-in-out infinite;
+}
+
+.quantum-float {
+    animation: quantumFloat 3s ease-in-out infinite;
+}
+
+.quantum-spin {
+    animation: quantumSpin 8s linear infinite;
+}
+
+.quantum-glow {
+    animation: quantumGlow 2s ease-in-out infinite;
+}
+
+/* Quantum Loading Spinner */
+.quantum-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top: 3px solid var(--quantum-accent);
+    border-radius: 50%;
+    animation: quantumSpin 1s linear infinite;
+    margin: 0 auto;
+}
+
+/* Quantum Progress Bar */
+.quantum-progress {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--quantum-radius-full);
+    overflow: hidden;
+    position: relative;
+}
+
+.quantum-progress-bar {
+    height: 100%;
+    background: var(--quantum-accent-gradient);
+    border-radius: var(--quantum-radius-full);
+    transition: width 0.3s ease;
+    position: relative;
+}
+
+.quantum-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: quantumShimmer 2s infinite;
+}
+
+@keyframes quantumShimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Quantum Badge */
+.quantum-badge {
+    display: inline-block;
+    padding: var(--quantum-spacing-xs) var(--quantum-spacing-sm);
+    background: var(--quantum-accent-gradient);
+    color: var(--quantum-dark);
+    border-radius: var(--quantum-radius-full);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Quantum Modal Overlay */
+.quantum-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.quantum-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Quantum Utilities */
+.quantum-text-center {
+    text-align: center;
+}
+
+.quantum-text-left {
+    text-align: left;
+}
+
+.quantum-text-right {
+    text-align: right;
+}
+
+.quantum-hidden {
+    display: none !important;
+}
+
+.quantum-visible {
+    display: block !important;
+}
+
+.quantum-flex {
+    display: flex;
+}
+
+.quantum-flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantum-flex-column {
+    flex-direction: column;
+}
+
+.quantum-gap-sm {
+    gap: var(--quantum-spacing-sm);
+}
+
+.quantum-gap-md {
+    gap: var(--quantum-spacing-md);
+}
+
+.quantum-gap-lg {
+    gap: var(--quantum-spacing-lg);
+}
+
+/* Quantum Number Display */
+.quantum-numbers {
+    display: flex;
+    gap: var(--quantum-spacing-sm);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: var(--quantum-spacing-lg) 0;
+}
+
+.quantum-number {
+    width: 50px;
+    height: 50px;
+    background: var(--quantum-accent-gradient);
+    color: var(--quantum-dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    box-shadow: var(--quantum-shadow-md);
+    transition: all 0.3s ease;
+}
+
+.quantum-number:hover {
+    transform: scale(1.1);
+    box-shadow: var(--quantum-shadow-lg);
+}
+
+.quantum-number.powerball {
+    background: var(--quantum-danger-gradient);
+    color: white;
+}
+
+/* Quantum Info Panel */
+.quantum-info-panel {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--quantum-radius-md);
+    padding: var(--quantum-spacing-md);
+    margin: var(--quantum-spacing-md) 0;
+    backdrop-filter: blur(10px);
+}
+
+.quantum-info-panel h3 {
+    margin-top: 0;
+    color: var(--quantum-accent);
+}
+
+.quantum-info-panel .quantum-stat {
+    display: flex;
+    justify-content: space-between;
+    margin: var(--quantum-spacing-sm) 0;
+    padding: var(--quantum-spacing-xs) 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.quantum-info-panel .quantum-stat:last-child {
+    border-bottom: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .quantum-title {
+        font-size: 2rem;
+    }
+    
+    .quantum-btn {
+        padding: var(--quantum-spacing-sm) var(--quantum-spacing-md);
+        font-size: 0.9rem;
+    }
+    
+    .quantum-card {
+        padding: var(--quantum-spacing-md);
+        margin: var(--quantum-spacing-sm);
+    }
+    
+    .quantum-number {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .quantum-title {
+        font-size: 1.5rem;
+    }
+    
+    .quantum-numbers {
+        gap: var(--quantum-spacing-xs);
+    }
+    
+    .quantum-number {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+}

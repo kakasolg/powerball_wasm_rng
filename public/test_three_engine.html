@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Three.js Multi-Combination System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html, body {
+            height: 100%; margin: 0; padding: 0; overflow: hidden; background: #222;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        #generationScreen {
+            flex: 0 0 55%;
+            min-height: 200px;
+            position: relative;
+            background: #222;
+        }
+        #resultContainer {
+            flex: 1 1 45%;
+            background: #181818;
+            color: #fff;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* 🎯 현재 진행 중인 조합 */
+        #currentSection {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #333;
+        }
+        #currentTitle {
+            font-size: 0.9em;
+            color: #888;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        #currentSlots {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        
+        /* 🎯 저장된 조합들 리스트 */
+        #savedSection {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        #savedTitle {
+            font-size: 0.9em;
+            color: #888;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #combinationsList {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        /* 스크롤바 스타일 */
+        #combinationsList::-webkit-scrollbar {
+            width: 6px;
+        }
+        #combinationsList::-webkit-scrollbar-track {
+            background: #333;
+            border-radius: 3px;
+        }
+        #combinationsList::-webkit-scrollbar-thumb {
+            background: #666;
+            border-radius: 3px;
+        }
+        #combinationsList::-webkit-scrollbar-thumb:hover {
+            background: #888;
+        }
+        
+        /* 🎯 조합 카드 스타일 */
+        .combination-card {
+            background: #262626;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+        }
+        .combination-card:hover {
+            background: #2a2a2a;
+            border-color: #555;
+        }
+        .combination-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .combination-number {
+            font-size: 0.8em;
+            color: #aaa;
+            font-weight: bold;
+        }
+        .combination-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .action-btn {
+            background: none;
+            border: 1px solid #555;
+            color: #aaa;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .action-btn:hover {
+            background: #333;
+            color: #fff;
+        }
+        .copy-btn:hover {
+            border-color: #00ffff;
+            color: #00ffff;
+        }
+        .delete-btn:hover {
+            border-color: #ff3333;
+            color: #ff3333;
+        }
+        
+        /* 🎯 번호 슬롯 스타일 */
+        .slots {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+        .slot {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 0.9em;
+            border: 2px solid #00ffff;
+            background: #222;
+            color: #888;
+            transition: all 0.3s;
+        }
+        .slot.filled {
+            background: #00ffff;
+            color: #222;
+        }
+        .slot.pb {
+            border-color: #ff3333;
+        }
+        .slot.pb.filled {
+            background: #ff3333;
+            color: #fff;
+        }
+        
+        /* 현재 조합의 슬롯은 조금 더 크게 */
+        #currentSlots .slot {
+            width: 40px;
+            height: 40px;
+            font-size: 1.1em;
+        }
+        
+        /* 🎯 빈 상태 표시 */
+        .empty-state {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 20px;
+        }
+        
+        /* 🎯 카운터 */
+        .combinations-count {
+            color: #00ffff;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 600px) {
+            #generationScreen { min-height: 160px; }
+            #resultContainer { padding: 12px; }
+            .slots { gap: 6px; }
+            .slot { width: 28px; height: 28px; font-size: 0.8em; }
+            #currentSlots .slot { width: 36px; height: 36px; font-size: 1em; }
+        }
+    </style>
+</head>
+<body>
+    <div id="generationScreen"></div>
+    <div id="resultContainer">
+        <!-- 현재 진행 중인 조합 -->
+        <div id="currentSection">
+            <div id="currentTitle">Current Combination</div>
+            <div id="currentSlots"></div>
+        </div>
+        
+        <!-- 저장된 조합들 -->
+        <div id="savedSection">
+            <div id="savedTitle">
+                Saved Combinations 
+                <span class="combinations-count" id="combinationsCount">0</span>
+            </div>
+            <div id="combinationsList">
+                <div class="empty-state">No combinations saved yet</div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js",
+            "gsap": "https://cdn.jsdelivr.net/npm/gsap@3.12.2/index.js"
+        }
+    }
+    </script>
+    <script type="module">
+        import { ThreeEngine } from './js/three-engine.js';
+        
+        // 🎯 다중 조합 관리 시스템
+        class MultiCombinationManager {
+            constructor() {
+                this.savedCombinations = [];
+                this.currentCombination = { numbers: [], powerball: null };
+                this.engine = null;
+            }
+            
+            // 현재 진행 중인 조합 업데이트
+            updateCurrentCombination(numbers, powerball) {
+                this.currentCombination = { numbers: [...(numbers || [])], powerball };
+                this.renderCurrentSlots();
+            }
+            
+            // 조합 저장
+            saveCombination(numbers, powerball) {
+                if (numbers.length === 5 && powerball) {
+                    const combination = {
+                        id: Date.now(),
+                        numbers: [...numbers],
+                        powerball,
+                        timestamp: new Date()
+                    };
+                    this.savedCombinations.unshift(combination); // 최신 것이 위로
+                    this.renderSavedCombinations();
+                    this.updateCounter();
+                    
+                    // 현재 조합 리셋
+                    this.currentCombination = { numbers: [], powerball: null };
+                    this.renderCurrentSlots();
+                    
+                    console.log('💾 Combination saved:', combination);
+                }
+            }
+            
+            // 조합 삭제
+            deleteCombination(id) {
+                this.savedCombinations = this.savedCombinations.filter(c => c.id !== id);
+                this.renderSavedCombinations();
+                this.updateCounter();
+            }
+            
+            // 조합 복사
+            copyCombination(numbers, powerball) {
+                const text = `${numbers.join(', ')} | PB: ${powerball}`;
+                navigator.clipboard.writeText(text).then(() => {
+                    this.showToast('📋 Copied to clipboard!');
+                }).catch(() => {
+                    this.showToast('❌ Copy failed');
+                });
+            }
+            
+            // 토스트 메시지
+            showToast(message) {
+                // 간단한 토스트 구현
+                const toast = document.createElement('div');
+                toast.textContent = message;
+                toast.style.cssText = `
+                    position: fixed; top: 20px; right: 20px; z-index: 9999;
+                    background: #333; color: #fff; padding: 12px 16px;
+                    border-radius: 8px; font-size: 0.9em;
+                    animation: slideIn 0.3s ease;
+                `;
+                document.body.appendChild(toast);
+                setTimeout(() => {
+                    toast.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => toast.remove(), 300);
+                }, 2000);
+            }
+            
+            // 현재 조합 슬롯 렌더링
+            renderCurrentSlots() {
+                const slotsDiv = document.getElementById('currentSlots');
+                slotsDiv.innerHTML = '';
+                
+                // 5개 메인 번호 슬롯
+                for(let i = 0; i < 5; i++) {
+                    const slot = document.createElement('div');
+                    slot.className = 'slot';
+                    if(this.currentCombination.numbers[i]) {
+                        slot.classList.add('filled');
+                        slot.textContent = this.currentCombination.numbers[i];
+                    } else {
+                        slot.textContent = '-';
+                    }
+                    slotsDiv.appendChild(slot);
+                }
+                
+                // 파워볼 슬롯
+                const pbSlot = document.createElement('div');
+                pbSlot.className = 'slot pb';
+                if(this.currentCombination.powerball) {
+                    pbSlot.classList.add('filled');
+                    pbSlot.textContent = this.currentCombination.powerball;
+                } else {
+                    pbSlot.textContent = '-';
+                }
+                slotsDiv.appendChild(pbSlot);
+            }
+            
+            // 저장된 조합들 렌더링
+            renderSavedCombinations() {
+                const listDiv = document.getElementById('combinationsList');
+                
+                if (this.savedCombinations.length === 0) {
+                    listDiv.innerHTML = '<div class="empty-state">No combinations saved yet</div>';
+                    return;
+                }
+                
+                listDiv.innerHTML = '';
+                this.savedCombinations.forEach((combination, index) => {
+                    const card = this.createCombinationCard(combination, index + 1);
+                    listDiv.appendChild(card);
+                });
+            }
+            
+            // 조합 카드 생성
+            createCombinationCard(combination, number) {
+                const card = document.createElement('div');
+                card.className = 'combination-card';
+                
+                const timestamp = combination.timestamp.toLocaleTimeString('ko-KR', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                card.innerHTML = `
+                    <div class="combination-header">
+                        <span class="combination-number">#${number} (${timestamp})</span>
+                        <div class="combination-actions">
+                            <button class="action-btn copy-btn" onclick="manager.copyCombination([${combination.numbers}], ${combination.powerball})">
+                                📋 Copy
+                            </button>
+                            <button class="action-btn delete-btn" onclick="manager.deleteCombination(${combination.id})">
+                                🗑️ Delete
+                            </button>
+                        </div>
+                    </div>
+                    <div class="slots">
+                        ${combination.numbers.map(num => `<div class="slot filled">${num}</div>`).join('')}
+                        <div class="slot pb filled">${combination.powerball}</div>
+                    </div>
+                `;
+                
+                return card;
+            }
+            
+            // 카운터 업데이트
+            updateCounter() {
+                const counter = document.getElementById('combinationsCount');
+                counter.textContent = this.savedCombinations.length;
+            }
+            
+            // 게임 리셋 (새로운 조합 시작)
+            resetGame() {
+                if (this.engine) {
+                    this.engine.resetGame();
+                }
+                this.currentCombination = { numbers: [], powerball: null };
+                this.renderCurrentSlots();
+            }
+        }
+        
+        // 전역 매니저 인스턴스
+        const manager = new MultiCombinationManager();
+        window.manager = manager; // 버튼 이벤트에서 접근 가능하도록
+        
+        // Three.js 엔진 초기화
+        async function main() {
+            const engine = new ThreeEngine();
+            manager.engine = engine;
+            
+            // 볼 클릭 시 현재 조합 업데이트
+            engine.onBallClick = ({ numbers, powerball }) => {
+                console.log('onBallClick:', numbers, powerball);
+                manager.updateCurrentCombination(numbers, powerball);
+            };
+            
+            // 게임 완료 시 조합 저장 후 새 게임 시작
+            engine.onGameComplete = ({ numbers, powerball }) => {
+                console.log('onGameComplete:', numbers, powerball);
+                manager.saveCombination(numbers, powerball);
+                
+                // 3초 후 자동으로 새 게임 시작
+                setTimeout(() => {
+                    manager.resetGame();
+                    manager.showToast('🎯 Ready for next combination!');
+                }, 3000);
+            };
+            
+            await engine.init();
+            engine.startRendering();
+        }
+        
+        // CSS 애니메이션 추가
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // 초기화
+        main();
+        manager.renderCurrentSlots();
+    </script>
+</body>
+</html>

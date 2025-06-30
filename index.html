@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Rust WASM vs JavaScript RNG 성능 비교</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .benchmark-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .benchmark-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .benchmark-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+        
+        .test-button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+        
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .test-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .performance-comparison {
+            background: rgba(0, 255, 0, 0.1);
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .winner {
+            color: #00ff00;
+            font-weight: bold;
+        }
+        
+        .loser {
+            color: #ff6b6b;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            color: #ffd700;
+            font-style: italic;
+        }
+        
+        .number-display {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+            font-size: 1.2em;
+        }
+        
+        .number-set {
+            margin: 5px 0;
+        }
+        
+        .main-numbers {
+            color: #87ceeb;
+        }
+        
+        .powerball {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Rust WASM vs JavaScript RNG 성능 비교</h1>
+        <p style="text-align: center; font-size: 1.1em; margin-bottom: 30px;">
+            암호학적 난수 생성 속도와 품질을 실시간으로 비교해보세요
+        </p>
+        
+        <div class="loading" id="loading">
+            ⏳ WASM 모듈 로딩 중...
+        </div>
+        
+        <div id="main-content" style="display: none;">
+            <div class="benchmark-grid">
+                <!-- JavaScript Mersenne Twister -->
+                <div class="benchmark-card">
+                    <div class="benchmark-title">📊 JavaScript Mersenne Twister</div>
+                    <button class="test-button" onclick="benchmarkJavaScript()">성능 테스트 시작</button>
+                    <button class="test-button" onclick="generateJavaScriptNumbers()">복권 번호 생성</button>
+                    <div class="result" id="js-result">결과 대기 중...</div>
+                    <div class="number-display" id="js-numbers"></div>
+                </div>
+                
+                <!-- WASM Mersenne Twister -->
+                <div class="benchmark-card">
+                    <div class="benchmark-title">⚡ WASM Mersenne Twister</div>
+                    <button class="test-button" onclick="benchmarkWasmMT()">성능 테스트 시작</button>
+                    <button class="test-button" onclick="generateWasmMTNumbers()">복권 번호 생성</button>
+                    <div class="result" id="wasm-mt-result">결과 대기 중...</div>
+                    <div class="number-display" id="wasm-mt-numbers"></div>
+                </div>
+                
+                <!-- WASM ChaCha20 Crypto -->
+                <div class="benchmark-card">
+                    <div class="benchmark-title">🔒 WASM ChaCha20 암호학적</div>
+                    <button class="test-button" onclick="benchmarkWasmCrypto()">성능 테스트 시작</button>
+                    <button class="test-button" onclick="generateWasmCryptoNumbers()">복권 번호 생성</button>
+                    <div class="result" id="wasm-crypto-result">결과 대기 중...</div>
+                    <div class="number-display" id="wasm-crypto-numbers"></div>
+                </div>
+                
+                <!-- WASM Hybrid -->
+                <div class="benchmark-card">
+                    <div class="benchmark-title">🌟 WASM 하이브리드 엔트로피</div>
+                    <button class="test-button" onclick="benchmarkWasmHybrid()">성능 테스트 시작</button>
+                    <button class="test-button" onclick="generateWasmHybridNumbers()">복권 번호 생성</button>
+                    <div class="result" id="wasm-hybrid-result">결과 대기 중...</div>
+                    <div class="number-display" id="wasm-hybrid-numbers"></div>
+                </div>
+            </div>
+            
+            <div class="performance-comparison" id="comparison" style="display: none;">
+                <h3>🏆 성능 비교 결과</h3>
+                <div id="comparison-content"></div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="test-button" onclick="runFullBenchmark()" style="font-size: 1.2em; padding: 15px 30px;">
+                    🚀 전체 벤치마크 실행
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import init, { HighPerformanceRNG, PerformanceBenchmark } from './pkg/powerball_wasm_rng.js';
+        
+        let wasmRng;
+        let wasmBenchmark;
+        let jsResults = {};
+        let wasmResults = {};
+        
+        // JavaScript Mersenne Twister (비교용)
+        class JavaScriptMT {
+            constructor(seed) {
+                this.mt = new Array(624);
+                this.index = 0;
+                this.mt[0] = seed >>> 0;
+                for (let i = 1; i < 624; i++) {
+                    this.mt[i] = (1812433253 * (this.mt[i - 1] ^ (this.mt[i - 1] >>> 30)) + i) >>> 0;
+                }
+            }
+            
+            random() {
+                if (this.index >= 624) {
+                    for (let i = 0; i < 624; i++) {
+                        let y = (this.mt[i] & 0x80000000) + (this.mt[(i + 1) % 624] & 0x7fffffff);
+                        this.mt[i] = this.mt[(i + 397) % 624] ^ (y >>> 1);
+                        if (y % 2 !== 0) this.mt[i] ^= 0x9908b0df;
+                    }
+                    this.index = 0;
+                }
+                let y = this.mt[this.index++];
+                y ^= (y >>> 11);
+                y ^= (y << 7) & 0x9d2c5680;
+                y ^= (y << 15) & 0xefc60000;
+                y ^= (y >>> 18);
+                return (y >>> 0) / 0xffffffff;
+            }
+        }
+        
+        const jsMT = new JavaScriptMT(Date.now());
+        
+        // WASM 초기화
+        async function initWasm() {
+            document.getElementById('loading').style.display = 'block';
+            try {
+                await init();
+                wasmRng = new HighPerformanceRNG();
+                wasmBenchmark = new PerformanceBenchmark();
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                console.log('🚀 WASM 초기화 완료!');
+            } catch (error) {
+                document.getElementById('loading').innerHTML = `❌ WASM 로딩 실패: ${error.message}`;
+            }
+        }
+        
+        // JavaScript 성능 테스트
+        window.benchmarkJavaScript = function() {
+            const iterations = 1000000;
+            const start = performance.now();
+            
+            for (let i = 0; i < iterations; i++) {
+                jsMT.random();
+            }
+            
+            const end = performance.now();
+            const duration = end - start;
+            const speed = Math.round(iterations / (duration / 1000));
+            
+            jsResults.mt = { duration, speed };
+            document.getElementById('js-result').innerHTML = 
+                `⏱️ ${duration.toFixed(2)}ms<br>🚀 ${speed.toLocaleString()}/초`;
+            updateComparison();
+        };
+        
+        // WASM MT 성능 테스트
+        window.benchmarkWasmMT = function() {
+            const iterations = 1000000;
+            const duration = wasmBenchmark.benchmark_mt(iterations);
+            const speed = Math.round(iterations / (duration / 1000));
+            
+            wasmResults.mt = { duration, speed };
+            document.getElementById('wasm-mt-result').innerHTML = 
+                `⏱️ ${duration.toFixed(2)}ms<br>🚀 ${speed.toLocaleString()}/초`;
+            updateComparison();
+        };
+        
+        // WASM Crypto 성능 테스트
+        window.benchmarkWasmCrypto = function() {
+            const iterations = 1000000;
+            const duration = wasmBenchmark.benchmark_crypto(iterations);
+            const speed = Math.round(iterations / (duration / 1000));
+            
+            wasmResults.crypto = { duration, speed };
+            document.getElementById('wasm-crypto-result').innerHTML = 
+                `⏱️ ${duration.toFixed(2)}ms<br>🚀 ${speed.toLocaleString()}/초`;
+            updateComparison();
+        };
+        
+        // WASM Hybrid 성능 테스트
+        window.benchmarkWasmHybrid = function() {
+            const iterations = 100000; // 하이브리드는 더 복잡하므로 적게
+            const duration = wasmBenchmark.benchmark_hybrid(iterations);
+            const speed = Math.round(iterations / (duration / 1000));
+            
+            wasmResults.hybrid = { duration, speed };
+            document.getElementById('wasm-hybrid-result').innerHTML = 
+                `⏱️ ${duration.toFixed(2)}ms<br>🚀 ${speed.toLocaleString()}/초`;
+            updateComparison();
+        };
+        
+        // 복권 번호 생성 함수들
+        window.generateJavaScriptNumbers = function() {
+            const mainNumbers = [];
+            const used = new Set();
+            
+            while (mainNumbers.length < 5) {
+                const num = Math.floor(jsMT.random() * 69) + 1;
+                if (!used.has(num)) {
+                    used.add(num);
+                    mainNumbers.push(num);
+                }
+            }
+            mainNumbers.sort((a, b) => a - b);
+            
+            const powerball = Math.floor(jsMT.random() * 26) + 1;
+            
+            document.getElementById('js-numbers').innerHTML = 
+                `<div class="number-set"><span class="main-numbers">메인: ${mainNumbers.join(', ')}</span></div>
+                 <div class="number-set"><span class="powerball">파워볼: ${powerball}</span></div>`;
+        };
+        
+        window.generateWasmMTNumbers = function() {
+            const mainNumbers = wasmRng.generate_main_numbers();
+            const powerball = wasmRng.generate_powerball();
+            
+            document.getElementById('wasm-mt-numbers').innerHTML = 
+                `<div class="number-set"><span class="main-numbers">메인: ${Array.from(mainNumbers).join(', ')}</span></div>
+                 <div class="number-set"><span class="powerball">파워볼: ${powerball}</span></div>`;
+        };
+        
+        window.generateWasmCryptoNumbers = function() {
+            const mainNumbers = wasmRng.generate_main_numbers();
+            const powerball = wasmRng.generate_powerball();
+            
+            document.getElementById('wasm-crypto-numbers').innerHTML = 
+                `<div class="number-set"><span class="main-numbers">메인: ${Array.from(mainNumbers).join(', ')}</span></div>
+                 <div class="number-set"><span class="powerball">파워볼: ${powerball}</span></div>`;
+        };
+        
+        window.generateWasmHybridNumbers = function() {
+            const mainNumbers = wasmRng.generate_main_numbers();
+            const powerball = wasmRng.generate_powerball();
+            
+            document.getElementById('wasm-hybrid-numbers').innerHTML = 
+                `<div class="number-set"><span class="main-numbers">메인: ${Array.from(mainNumbers).join(', ')}</span></div>
+                 <div class="number-set"><span class="powerball">파워볼: ${powerball}</span></div>`;
+        };
+        
+        // 성능 비교 업데이트
+        function updateComparison() {
+            if (Object.keys(jsResults).length === 0 && Object.keys(wasmResults).length === 0) return;
+            
+            document.getElementById('comparison').style.display = 'block';
+            let content = '';
+            
+            if (jsResults.mt && wasmResults.mt) {
+                const speedup = wasmResults.mt.speed / jsResults.mt.speed;
+                content += `<p>📊 Mersenne Twister 비교:</p>`;
+                content += `<p>JavaScript: ${jsResults.mt.speed.toLocaleString()}/초</p>`;
+                content += `<p>WASM: ${wasmResults.mt.speed.toLocaleString()}/초</p>`;
+                content += `<p class="${speedup > 1 ? 'winner' : 'loser'}">성능 향상: ${speedup.toFixed(2)}x</p><br>`;
+            }
+            
+            if (wasmResults.crypto) {
+                content += `<p>🔒 ChaCha20 암호학적: ${wasmResults.crypto.speed.toLocaleString()}/초</p>`;
+            }
+            
+            if (wasmResults.hybrid) {
+                content += `<p>🌟 하이브리드 엔트로피: ${wasmResults.hybrid.speed.toLocaleString()}/초</p>`;
+            }
+            
+            document.getElementById('comparison-content').innerHTML = content;
+        }
+        
+        // 전체 벤치마크
+        window.runFullBenchmark = function() {
+            benchmarkJavaScript();
+            setTimeout(() => benchmarkWasmMT(), 100);
+            setTimeout(() => benchmarkWasmCrypto(), 200);
+            setTimeout(() => benchmarkWasmHybrid(), 300);
+        };
+        
+        // 초기화
+        initWasm();
+    </script>
+</body>
+</html>

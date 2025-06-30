@@ -1,0 +1,19 @@
+{
+  "projects": {
+    "default": "powerball-superposition",
+    "development": "powerball-superposition-dev",
+    "staging": "powerball-superposition-staging",
+    "production": "powerball-superposition"
+  },
+  "targets": {
+    "powerball-superposition": {
+      "hosting": {
+        "quantum-app": [
+          "powerball-superposition"
+        ]
+      }
+    }
+  },
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
+}

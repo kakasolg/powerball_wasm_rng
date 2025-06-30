@@ -1,0 +1,79 @@
+{
+  "name": "WebCrypto 3D Powerball Generator",
+  "short_name": "WebCrypto Powerball",
+  "description": "WebCrypto 하드웨어 엔트로피 기반 3D 복권 번호 생성기. 암호학적 안전성과 아름다운 3D 인터페이스를 결합한 혁신적인 복권 시스템.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#222222",
+  "theme_color": "#222222",
+  "orientation": "portrait-primary",
+  "scope": "./",
+  "lang": "ko-KR",
+  "categories": ["entertainment", "games", "utilities", "productivity"],
+  "icons": [
+    {
+      "src": "icons/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    }
+  ],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "새 번호 생성",
+      "short_name": "생성",
+      "description": "WebCrypto 하드웨어 엔트로피로 새 번호 생성",
+      "url": "./?action=generate",
+      "icons": [
+        {
+          "src": "icons/icon-96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "저장된 번호들",
+      "short_name": "저장됨",
+      "description": "저장된 복권 번호 조합들 확인",
+      "url": "./?action=saved",
+      "icons": [
+        {
+          "src": "icons/icon-96.png",
+          "sizes": "96x96", 
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}

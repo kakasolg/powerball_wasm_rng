@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Powerball Superposition - Where quantum physics meets lottery picks. Engineered unpredictability.">
+    <meta name="keywords" content="powerball, lottery, quantum, random numbers, superposition">
+    <meta name="author" content="Powerball Superposition">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Powerball Superposition">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+    
+    <title>🎯 Powerball Superposition | Engineered Unpredictability</title>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/quantum-theme.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="/js/quantum-engine.js" as="script">
+    <link rel="preload" href="/data/historical-draws.json" as="fetch" crossorigin>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="quantum-loading" class="loading-screen">
+        <div class="quantum-logo">
+            <div class="atom-spinner">
+                <div class="nucleus"></div>
+                <div class="electron-orbit orbit-1">
+                    <div class="electron"></div>
+                </div>
+                <div class="electron-orbit orbit-2">
+                    <div class="electron"></div>
+                </div>
+                <div class="electron-orbit orbit-3">
+                    <div class="electron"></div>
+                </div>
+            </div>
+        </div>
+        <h1 class="quantum-title">⚛️ Powerball Superposition</h1>
+        <p class="quantum-subtitle">Initializing Quantum Computer...</p>
+        <div class="loading-messages">
+            <p id="loading-message" class="loading-text">Booting up quantum processors...</p>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div id="loading-progress" class="progress-fill"></div>
+            </div>
+            <span id="progress-percent" class="progress-text">0%</span>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="main-app" class="app-container" style="display: none;">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="app-title">
+                    <span class="quantum-icon">⚛️</span>
+                    Powerball Superposition
+                </h1>
+                <p class="app-tagline">Engineered Unpredictability</p>
+            </div>
+            <div class="quantum-stats">
+                <div class="stat-item">
+                    <span class="stat-value" id="quantum-quality">99.7%</span>
+                    <span class="stat-label">Quantum Purity</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="universes-scanned">0</span>
+                    <span class="stat-label">Universes Scanned</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Generation Section -->
+        <section class="generation-section">
+            <div class="generation-container">
+                <div class="quantum-status" id="quantum-status">
+                    <div class="status-indicator ready" id="status-indicator"></div>
+                    <span class="status-text" id="status-text">Quantum Computer Ready</span>
+                </div>
+                
+                <button id="generate-btn" class="generate-button">
+                    <span class="btn-icon">🎲</span>
+                    <span class="btn-text">Collapse Wave Function</span>
+                    <div class="btn-quantum-effect"></div>
+                </button>
+                
+                <div class="cost-display">
+                    <span class="cost-text">Cost: <strong>2.7 Qubit-Hours</strong></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Numbers Display -->
+        <section class="numbers-section" id="numbers-section" style="display: none;">
+            <div class="numbers-container">
+                <h2 class="section-title">🎯 Your Quantum Numbers</h2>
+                <div class="numbers-display">
+                    <div class="main-numbers">
+                        <div class="number-ball" id="num1">--</div>
+                        <div class="number-ball" id="num2">--</div>
+                        <div class="number-ball" id="num3">--</div>
+                        <div class="number-ball" id="num4">--</div>
+                        <div class="number-ball" id="num5">--</div>
+                    </div>
+                    <div class="powerball-container">
+                        <div class="number-ball powerball" id="powerball">--</div>
+                        <span class="powerball-label">Powerball</span>
+                    </div>
+                </div>
+                <div class="generation-info">
+                    <p class="quantum-details" id="quantum-details">
+                        Generated using <strong id="qubit-cost">2.7 Qubit-Hours</strong> • 
+                        Scanned <strong id="universes-count">1,847</strong> parallel universes
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Similarity Analysis -->
+        <section class="analysis-section" id="analysis-section" style="display: none;">
+            <div class="analysis-container">
+                <h2 class="section-title">📊 Historical Pattern Analysis</h2>
+                <div class="analysis-summary">
+                    <div class="summary-stats">
+                        <div class="summary-item">
+                            <span class="summary-value" id="total-analyzed">1,799</span>
+                            <span class="summary-label">Draws Analyzed</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-value" id="avg-similarity">--</span>
+                            <span class="summary-label">Avg Similarity</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-value" id="max-similarity">--</span>
+                            <span class="summary-label">Max Similarity</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="matches-container" id="matches-container">
+                    <!-- Historical matches will be populated here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Actions -->
+        <section class="actions-section">
+            <div class="actions-container">
+                <button class="action-btn secondary" id="generate-again-btn">
+                    <span class="btn-icon">🔄</span>
+                    Generate Again
+                </button>
+                <button class="action-btn primary" id="save-btn">
+                    <span class="btn-icon">💾</span>
+                    Save Numbers
+                </button>
+                <button class="action-btn secondary" id="share-btn">
+                    <span class="btn-icon">📤</span>
+                    Share Results
+                </button>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="disclaimer">
+                <p class="disclaimer-text">
+                    ⚠️ <strong>Quantum Disclaimer:</strong> Our quantum computer is actually a very fast calculator. 
+                    This app does not improve your odds (still 1 in 300 million, sorry!). 
+                    Nobody actually understands quantum mechanics anyway.
+                </p>
+            </div>
+            <div class="footer-links">
+                <a href="#" class="footer-link">About</a>
+                <a href="#" class="footer-link">Privacy</a>
+                <a href="#" class="footer-link">Terms</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Quantum Loading Overlay (for number generation) -->
+    <div id="quantum-overlay" class="quantum-overlay" style="display: none;">
+        <div class="overlay-content">
+            <div class="quantum-animation">
+                <div class="wave-function">
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                </div>
+            </div>
+            <h3 class="overlay-title" id="overlay-title">Quantum Processing...</h3>
+            <p class="overlay-message" id="overlay-message">Entangling qubits...</p>
+            <div class="progress-container">
+                <div class="progress-bar quantum">
+                    <div id="quantum-progress" class="progress-fill"></div>
+                </div>
+                <span id="quantum-percent" class="progress-text">0%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/quantum-engine.js"></script>
+    <script src="/js/comedy-system.js"></script>
+    <script src="/js/similarity-analyzer.js"></script>
+    <script src="/js/social-sharing.js"></script>
+    <script src="/js/app.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => console.log('SW registered'))
+                    .catch(error => console.log('SW registration failed'));
+            });
+        }
+    </script>
+</body>
+</html>

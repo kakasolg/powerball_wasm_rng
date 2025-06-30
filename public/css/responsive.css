@@ -1,0 +1,585 @@
+/* 📱 Powerball Superposition - Responsive Styles */
+
+/* ======= MOBILE FIRST APPROACH ======= */
+
+/* Extra Small Devices (phones, less than 576px) */
+@media (max-width: 575.98px) {
+  .quantum-title {
+    font-size: 2rem;
+  }
+  
+  .app-title {
+    font-size: 1.5rem;
+  }
+  
+  .quantum-icon {
+    font-size: 2rem;
+  }
+  
+  .quantum-stats {
+    gap: 1rem;
+  }
+  
+  .generation-section {
+    padding: 2rem 1rem;
+  }
+  
+  .generate-button {
+    font-size: 1rem;
+    padding: 1.2rem 1.5rem;
+  }
+  
+  .number-ball {
+    width: 50px;
+    height: 50px;
+    font-size: 1rem;
+  }
+  
+  .main-numbers {
+    gap: 0.3rem;
+  }
+  
+  .powerball-container {
+    margin-left: 0.5rem;
+  }
+  
+  .actions-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .action-btn {
+    width: 100%;
+    max-width: 250px;
+  }
+  
+  .summary-stats {
+    gap: 1rem;
+  }
+  
+  .summary-item {
+    min-width: 100px;
+    padding: 0.8rem;
+  }
+  
+  .progress-container {
+    width: 250px;
+  }
+  
+  .overlay-content {
+    padding: 1.5rem;
+  }
+  
+  .disclaimer-text {
+    font-size: 0.75rem;
+  }
+}
+
+/* Small Devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .quantum-title {
+    font-size: 2.2rem;
+  }
+  
+  .app-title {
+    font-size: 1.8rem;
+  }
+  
+  .generate-button {
+    max-width: 350px;
+  }
+  
+  .number-ball {
+    width: 55px;
+    height: 55px;
+    font-size: 1.1rem;
+  }
+  
+  .actions-container {
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+  .action-btn {
+    flex: 1;
+    max-width: 160px;
+  }
+}
+
+/* Medium Devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .app-header {
+    padding: 2.5rem 2rem 1.5rem;
+  }
+  
+  .generation-section {
+    padding: 4rem 2rem;
+  }
+  
+  .numbers-section,
+  .analysis-section {
+    padding: 2.5rem 2rem;
+  }
+  
+  .actions-section {
+    padding: 2.5rem 2rem;
+  }
+  
+  .number-ball {
+    width: 65px;
+    height: 65px;
+    font-size: 1.3rem;
+  }
+  
+  .main-numbers {
+    gap: 0.8rem;
+  }
+  
+  .powerball-container {
+    margin-left: 1.5rem;
+  }
+  
+  .summary-stats {
+    gap: 2.5rem;
+  }
+  
+  .summary-item {
+    min-width: 140px;
+    padding: 1.2rem;
+  }
+}
+
+/* Large Devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .app-header {
+    padding: 3rem 2rem 2rem;
+  }
+  
+  .generation-section {
+    padding: 5rem 2rem;
+  }
+  
+  .generation-container {
+    max-width: 500px;
+  }
+  
+  .numbers-display {
+    gap: 1.5rem;
+  }
+  
+  .main-numbers {
+    gap: 1rem;
+  }
+  
+  .number-ball {
+    width: 70px;
+    height: 70px;
+    font-size: 1.4rem;
+  }
+  
+  .powerball-container {
+    margin-left: 2rem;
+  }
+  
+  .actions-container {
+    gap: 1.5rem;
+  }
+  
+  .action-btn {
+    min-width: 140px;
+    padding: 1rem 2rem;
+  }
+}
+
+/* Extra Large Devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .app-header {
+    padding: 3rem 3rem 2rem;
+  }
+  
+  .quantum-title {
+    font-size: 3rem;
+  }
+  
+  .app-title {
+    font-size: 2.5rem;
+  }
+  
+  .quantum-icon {
+    font-size: 3rem;
+  }
+  
+  .generation-section {
+    padding: 6rem 3rem;
+  }
+  
+  .generation-container {
+    max-width: 600px;
+  }
+  
+  .generate-button {
+    max-width: 400px;
+    padding: 2rem 3rem;
+    font-size: 1.2rem;
+  }
+  
+  .numbers-section,
+  .analysis-section {
+    padding: 3rem;
+  }
+  
+  .actions-section {
+    padding: 3rem;
+  }
+  
+  .number-ball {
+    width: 80px;
+    height: 80px;
+    font-size: 1.5rem;
+  }
+  
+  .main-numbers {
+    gap: 1.2rem;
+  }
+  
+  .powerball-container {
+    margin-left: 2.5rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .summary-stats {
+    gap: 3rem;
+  }
+  
+  .summary-item {
+    min-width: 160px;
+    padding: 1.5rem;
+  }
+  
+  .summary-value {
+    font-size: 2rem;
+  }
+  
+  .actions-container {
+    gap: 2rem;
+  }
+  
+  .action-btn {
+    min-width: 160px;
+    padding: 1.2rem 2.5rem;
+    font-size: 1rem;
+  }
+}
+
+/* ======= LANDSCAPE ORIENTATION ======= */
+@media (orientation: landscape) and (max-height: 600px) {
+  .loading-screen {
+    flex-direction: row;
+    gap: 2rem;
+  }
+  
+  .quantum-logo {
+    margin-bottom: 0;
+  }
+  
+  .atom-spinner {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .quantum-title {
+    font-size: 2rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  .quantum-subtitle {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .generation-section {
+    padding: 2rem 1rem;
+  }
+  
+  .app-header {
+    padding: 1.5rem 1rem 1rem;
+  }
+  
+  .quantum-stats {
+    gap: 1.5rem;
+  }
+  
+  .numbers-section {
+    padding: 1.5rem 1rem;
+  }
+}
+
+/* ======= HIGH DPI DISPLAYS ======= */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .number-ball {
+    box-shadow: 
+      0 4px 16px rgba(0, 0, 0, 0.2),
+      0 8px 32px rgba(102, 126, 234, 0.3);
+  }
+  
+  .number-ball.powerball {
+    box-shadow: 
+      0 4px 16px rgba(0, 0, 0, 0.2),
+      0 8px 32px rgba(255, 51, 102, 0.4);
+  }
+  
+  .generate-button {
+    box-shadow: 
+      0 4px 16px rgba(0, 0, 0, 0.1),
+      0 8px 32px rgba(102, 126, 234, 0.3);
+  }
+}
+
+/* ======= REDUCED MOTION ======= */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .atom-spinner,
+  .quantum-icon,
+  .wave-function {
+    animation: none;
+  }
+  
+  .electron-orbit {
+    animation: none;
+  }
+  
+  .nucleus {
+    animation: none;
+  }
+  
+  .status-indicator {
+    animation: none;
+  }
+}
+
+/* ======= HIGH CONTRAST MODE ======= */
+@media (prefers-contrast: high) {
+  :root {
+    --quantum-blue: #0066ff;
+    --quantum-purple: #6600cc;
+    --probability-gold: #ffcc00;
+    --entropy-red: #ff0033;
+    --neutron-white: #ffffff;
+    --electron-black: #000000;
+  }
+  
+  .number-ball {
+    border: 2px solid var(--electron-black);
+  }
+  
+  .number-ball.powerball {
+    border: 2px solid var(--neutron-white);
+  }
+  
+  .action-btn.secondary {
+    border: 2px solid rgba(255, 255, 255, 0.8);
+  }
+}
+
+/* ======= DARK MODE PREFERENCE ======= */
+@media (prefers-color-scheme: light) {
+  /* Light mode adjustments if needed */
+  .disclaimer-text {
+    opacity: 0.8;
+  }
+  
+  .loading-text {
+    opacity: 0.8;
+  }
+}
+
+/* ======= TOUCH DEVICE OPTIMIZATIONS ======= */
+@media (pointer: coarse) {
+  .generate-button {
+    min-height: 60px;
+    padding: 1.5rem 2rem;
+  }
+  
+  .action-btn {
+    min-height: 48px;
+    padding: 1rem 1.5rem;
+  }
+  
+  .number-ball {
+    min-width: 60px;
+    min-height: 60px;
+  }
+  
+  /* Increase tap targets */
+  .footer-link {
+    padding: 0.5rem;
+    margin: 0.25rem;
+  }
+}
+
+/* ======= PRINT STYLES ======= */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .loading-screen,
+  .quantum-overlay,
+  .generate-button,
+  .actions-section,
+  .app-footer {
+    display: none !important;
+  }
+  
+  .app-header {
+    border-bottom: 2px solid black;
+  }
+  
+  .number-ball {
+    background: white !important;
+    color: black !important;
+    border: 2px solid black !important;
+    box-shadow: none !important;
+  }
+  
+  .number-ball.powerball {
+    background: black !important;
+    color: white !important;
+  }
+  
+  .section-title {
+    color: black !important;
+  }
+  
+  .quantum-stats,
+  .generation-info {
+    color: black !important;
+  }
+}
+
+/* ======= ACCESSIBILITY IMPROVEMENTS ======= */
+@media (prefers-reduced-transparency: reduce) {
+  .app-header,
+  .numbers-section,
+  .analysis-section,
+  .quantum-overlay {
+    backdrop-filter: none;
+    background: rgba(0, 0, 0, 0.8);
+  }
+}
+
+/* Focus styles for keyboard navigation */
+.generate-button:focus,
+.action-btn:focus,
+.footer-link:focus {
+  outline: 3px solid var(--probability-gold);
+  outline-offset: 2px;
+}
+
+/* Hover states only for devices that support hover */
+@media (hover: hover) {
+  .generate-button:hover {
+    transform: translateY(-2px);
+  }
+  
+  .action-btn:hover {
+    transform: translateY(-2px);
+  }
+  
+  .number-ball:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* ======= LOADING SCREEN RESPONSIVE ======= */
+@media (max-width: 480px) {
+  .loading-screen {
+    padding: 2rem 1rem;
+  }
+  
+  .atom-spinner {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .progress-container {
+    width: 280px;
+  }
+  
+  .loading-messages {
+    height: 40px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .loading-text {
+    font-size: 0.8rem;
+  }
+}
+
+/* ======= ULTRA-WIDE SCREENS ======= */
+@media (min-width: 1400px) {
+  .app-container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .generation-container {
+    max-width: 700px;
+  }
+  
+  .numbers-container,
+  .analysis-container {
+    max-width: 900px;
+  }
+}
+
+/* ======= SPECIFIC MOBILE OPTIMIZATIONS ======= */
+
+/* iPhone SE and similar small screens */
+@media (max-width: 375px) {
+  .quantum-title {
+    font-size: 1.8rem;
+  }
+  
+  .app-title {
+    font-size: 1.3rem;
+  }
+  
+  .number-ball {
+    width: 45px;
+    height: 45px;
+    font-size: 0.9rem;
+  }
+  
+  .progress-container {
+    width: 220px;
+  }
+}
+
+/* iPad Pro and large tablets */
+@media (min-width: 1024px) and (max-width: 1366px) {
+  .numbers-display {
+    gap: 2rem;
+  }
+  
+  .main-numbers {
+    gap: 1.5rem;
+  }
+  
+  .powerball-container {
+    margin-left: 3rem;
+  }
+  
+  .summary-stats {
+    gap: 4rem;
+  }
+}

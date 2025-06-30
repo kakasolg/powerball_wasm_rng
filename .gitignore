@@ -1,0 +1,28 @@
+# Rust build output
+/target/
+
+# WASM build output
+/pkg/
+
+# Node modules (if used)
+/node_modules/
+
+# Editor directories and files
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Archives
+*.zip
+
+# Env files
+.env
+
+# Test folders
+/tests/

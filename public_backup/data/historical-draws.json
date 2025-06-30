@@ -1,0 +1,320 @@
+{
+  "metadata": {
+    "source": "Powerball Superposition Sample Dataset",
+    "version": "1.0.0",
+    "description": "Historical Powerball draws for similarity analysis",
+    "total_draws": 50,
+    "date_range": {
+      "start": "2020-01-01",
+      "end": "2024-12-30"
+    },
+    "format": {
+      "date": "YYYY-MM-DD",
+      "numbers": "Array of 5 main numbers (1-69)",
+      "powerball": "Single powerball number (1-26)",
+      "jackpot": "Jackpot amount in USD"
+    }
+  },
+  "draws": [
+    {
+      "date": "2024-12-28",
+      "numbers": [7, 25, 41, 56, 67],
+      "powerball": 15,
+      "jackpot": 400000000
+    },
+    {
+      "date": "2024-12-25",
+      "numbers": [15, 26, 27, 30, 35],
+      "powerball": 3,
+      "jackpot": 150000000
+    },
+    {
+      "date": "2024-12-21",
+      "numbers": [2, 15, 27, 30, 50],
+      "powerball": 18,
+      "jackpot": 137000000
+    },
+    {
+      "date": "2024-12-18",
+      "numbers": [8, 22, 34, 44, 58],
+      "powerball": 9,
+      "jackpot": 120000000
+    },
+    {
+      "date": "2024-12-14",
+      "numbers": [12, 28, 33, 49, 65],
+      "powerball": 21,
+      "jackpot": 89000000
+    },
+    {
+      "date": "2024-11-30",
+      "numbers": [4, 19, 37, 52, 68],
+      "powerball": 11,
+      "jackpot": 267000000
+    },
+    {
+      "date": "2024-11-27",
+      "numbers": [11, 23, 29, 45, 61],
+      "powerball": 7,
+      "jackpot": 245000000
+    },
+    {
+      "date": "2024-11-23",
+      "numbers": [6, 18, 26, 42, 59],
+      "powerball": 14,
+      "jackpot": 220000000
+    },
+    {
+      "date": "2024-11-16",
+      "numbers": [13, 31, 48, 53, 66],
+      "powerball": 25,
+      "jackpot": 178000000
+    },
+    {
+      "date": "2024-10-30",
+      "numbers": [9, 24, 36, 47, 63],
+      "powerball": 12,
+      "jackpot": 156000000
+    },
+    {
+      "date": "2024-10-26",
+      "numbers": [3, 17, 35, 51, 69],
+      "powerball": 6,
+      "jackpot": 134000000
+    },
+    {
+      "date": "2024-10-19",
+      "numbers": [14, 32, 39, 46, 54],
+      "powerball": 20,
+      "jackpot": 115000000
+    },
+    {
+      "date": "2024-09-28",
+      "numbers": [1, 16, 28, 40, 57],
+      "powerball": 4,
+      "jackpot": 298000000
+    },
+    {
+      "date": "2024-09-21",
+      "numbers": [10, 25, 38, 55, 64],
+      "powerball": 17,
+      "jackpot": 276000000
+    },
+    {
+      "date": "2024-08-31",
+      "numbers": [5, 21, 43, 49, 62],
+      "powerball": 8,
+      "jackpot": 189000000
+    },
+    {
+      "date": "2024-08-24",
+      "numbers": [18, 29, 37, 58, 69],
+      "powerball": 22,
+      "jackpot": 167000000
+    },
+    {
+      "date": "2024-07-27",
+      "numbers": [2, 20, 33, 44, 56],
+      "powerball": 13,
+      "jackpot": 345000000
+    },
+    {
+      "date": "2024-07-13",
+      "numbers": [7, 24, 41, 50, 65],
+      "powerball": 19,
+      "jackpot": 234000000
+    },
+    {
+      "date": "2024-06-29",
+      "numbers": [12, 27, 34, 48, 61],
+      "powerball": 5,
+      "jackpot": 198000000
+    },
+    {
+      "date": "2024-05-25",
+      "numbers": [6, 22, 39, 53, 67],
+      "powerball": 16,
+      "jackpot": 267000000
+    },
+    {
+      "date": "2023-12-30",
+      "numbers": [15, 31, 45, 57, 68],
+      "powerball": 10,
+      "jackpot": 456000000
+    },
+    {
+      "date": "2023-11-18",
+      "numbers": [9, 26, 42, 52, 63],
+      "powerball": 23,
+      "jackpot": 378000000
+    },
+    {
+      "date": "2023-10-14",
+      "numbers": [4, 19, 35, 46, 59],
+      "powerball": 1,
+      "jackpot": 289000000
+    },
+    {
+      "date": "2023-09-09",
+      "numbers": [11, 28, 40, 51, 66],
+      "powerball": 24,
+      "jackpot": 234000000
+    },
+    {
+      "date": "2023-08-05",
+      "numbers": [8, 23, 37, 54, 69],
+      "powerball": 2,
+      "jackpot": 189000000
+    },
+    {
+      "date": "2022-12-31",
+      "numbers": [17, 32, 44, 58, 64],
+      "powerball": 18,
+      "jackpot": 567000000
+    },
+    {
+      "date": "2022-11-26",
+      "numbers": [3, 21, 38, 49, 62],
+      "powerball": 12,
+      "jackpot": 445000000
+    },
+    {
+      "date": "2022-10-22",
+      "numbers": [14, 29, 43, 56, 67],
+      "powerball": 7,
+      "jackpot": 334000000
+    },
+    {
+      "date": "2022-09-17",
+      "numbers": [5, 18, 33, 47, 61],
+      "powerball": 26,
+      "jackpot": 278000000
+    },
+    {
+      "date": "2022-08-13",
+      "numbers": [1, 25, 39, 52, 65],
+      "powerball": 15,
+      "jackpot": 234000000
+    },
+    {
+      "date": "2021-12-25",
+      "numbers": [13, 30, 41, 55, 68],
+      "powerball": 9,
+      "jackpot": 398000000
+    },
+    {
+      "date": "2021-11-20",
+      "numbers": [7, 24, 36, 48, 63],
+      "powerball": 21,
+      "jackpot": 345000000
+    },
+    {
+      "date": "2021-10-16",
+      "numbers": [16, 31, 42, 57, 66],
+      "powerball": 4,
+      "jackpot": 289000000
+    },
+    {
+      "date": "2021-07-04",
+      "numbers": [4, 17, 19, 26, 49],
+      "powerball": 11,
+      "jackpot": 234000000
+    },
+    {
+      "date": "2021-05-29",
+      "numbers": [10, 27, 38, 51, 64],
+      "powerball": 17,
+      "jackpot": 178000000
+    },
+    {
+      "date": "2020-12-26",
+      "numbers": [6, 22, 35, 46, 59],
+      "powerball": 14,
+      "jackpot": 456000000
+    },
+    {
+      "date": "2020-11-21",
+      "numbers": [12, 28, 40, 53, 67],
+      "powerball": 8,
+      "jackpot": 367000000
+    },
+    {
+      "date": "2020-10-17",
+      "numbers": [9, 25, 37, 50, 62],
+      "powerball": 22,
+      "jackpot": 298000000
+    },
+    {
+      "date": "2020-09-12",
+      "numbers": [2, 18, 32, 45, 58],
+      "powerball": 6,
+      "jackpot": 234000000
+    },
+    {
+      "date": "2020-08-08",
+      "numbers": [15, 29, 41, 54, 69],
+      "powerball": 19,
+      "jackpot": 189000000
+    },
+    {
+      "date": "2019-11-28",
+      "numbers": [12, 28, 35, 47, 56],
+      "powerball": 22,
+      "jackpot": 178000000
+    },
+    {
+      "date": "2019-08-15",
+      "numbers": [8, 23, 29, 41, 67],
+      "powerball": 7,
+      "jackpot": 298000000
+    },
+    {
+      "date": "2018-12-19",
+      "numbers": [15, 29, 31, 37, 43],
+      "powerball": 16,
+      "jackpot": 45000000
+    },
+    {
+      "date": "2018-05-26",
+      "numbers": [11, 24, 38, 52, 65],
+      "powerball": 13,
+      "jackpot": 123000000
+    },
+    {
+      "date": "2017-11-04",
+      "numbers": [3, 19, 33, 48, 61],
+      "powerball": 5,
+      "jackpot": 267000000
+    },
+    {
+      "date": "2015-07-01",
+      "numbers": [7, 24, 26, 31, 41],
+      "powerball": 25,
+      "jackpot": 78000000
+    },
+    {
+      "date": "2014-08-27",
+      "numbers": [17, 24, 26, 45, 46],
+      "powerball": 19,
+      "jackpot": 90000000
+    },
+    {
+      "date": "2013-03-15",
+      "numbers": [14, 27, 35, 49, 58],
+      "powerball": 12,
+      "jackpot": 156000000
+    },
+    {
+      "date": "2012-10-10",
+      "numbers": [18, 26, 29, 35, 43],
+      "powerball": 28,
+      "jackpot": 67000000
+    },
+    {
+      "date": "2011-06-18",
+      "numbers": [5, 16, 22, 39, 54],
+      "powerball": 9,
+      "jackpot": 98000000
+    }
+  ]
+}

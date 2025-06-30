@@ -1,0 +1,9 @@
+<html>
+<head><title>Pixels</title></head>
+<body>
+<script>if("browsingTopics"in document&&document.featurePolicy.allowsFeature("browsing-topics"))document.browsingTopics()</script>
+
+<img src="https://idsync.rlcdn.com/396846.gif?served_by=evergreen&partner_uid=beb6f88e-9c96-4393-b361-801aed218ace"><img src="https://ib.adnxs.com/getuid?https://us-u.openx.net/w/1.0/sd?id=537072399&val=$UID"><img src="https://us-u.openx.net/w/1.0/cm?id=e508c905-ddce-4732-92a4-0b0f5b72a28f&r=https%3A%2F%2Fid.rlcdn.com%2F464246.gif%3Fpartner_uid%3D%7BOPENX_ID%7D"><img src="https://pixel.tapad.com/idsync/ex/receive?partner_id=1955&partner_device_id=ed0ef414-0ad6-4874-a6f9-983fe7362a1a"><img src="https://pixel-sync.sitescout.com/dmp/pixelSync?nid=4&gdpr=0"><img src="https://sync.ipredictive.com/d/sync/cookie/generic?https://us-u.openx.net/w/1.0/sd?id=537073028&val=${ADELPHIC_CUID}"><img src="https://rtb.openx.net/sync/dds">
+
+</body>
+</html>

@@ -1,0 +1,542 @@
+/* Main CSS for Ultimate WebCrypto Layout */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+/* Loading Screen */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.loading-content {
+    text-align: center;
+    color: white;
+}
+
+.loading-content h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #ffd700;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #ffd700;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Canvas */
+canvas {
+    display: block;
+    cursor: crosshair;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+}
+
+/* Game Info Panel */
+.game-info {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 100;
+    min-width: 300px;
+}
+
+.quantum-state {
+    color: #00ffff;
+    font-weight: bold;
+}
+
+.collapsed-state {
+    color: #ffff00;
+    font-weight: bold;
+}
+
+.powerball-state {
+    color: #ff3333;
+    font-weight: bold;
+}
+
+#selection-display {
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+}
+
+/* WebCrypto Info Panel */
+.webcrypto-info {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 15px;
+    border-radius: 10px;
+    z-index: 100;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    min-width: 280px;
+}
+
+.webcrypto-info h3 {
+    margin: 0 0 10px 0;
+    color: #ffd700;
+}
+
+/* Performance Monitor */
+.performance-monitor {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 15px;
+    border-radius: 10px;
+    z-index: 100;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+}
+
+/* Controls */
+.controls {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100;
+}
+
+.control-button {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 5px;
+    transition: all 0.3s ease;
+}
+
+.control-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Zone Labels */
+.zone-label {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 12px;
+    color: #fff;
+    z-index: 90;
+}
+
+#center-zone {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #00ffff;
+}
+
+#selected-zone {
+    top: 50%;
+    right: 50px;
+    transform: translateY(-50%);
+    color: #ffff00;
+}
+
+/* Generation Screen */
+.generation-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    z-index: 50;
+}
+
+/* Screen Toggle States */
+.screen-hidden {
+    display: none !important;
+}
+
+.screen-visible {
+    display: block !important;
+}
+
+/* Modal Overlay & Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+}
+
+.modal {
+    background: linear-gradient(145deg, #667eea, #764ba2);
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 90vw;
+    width: 400px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.show .modal {
+    transform: scale(1);
+}
+
+.modal h2 {
+    margin: 0 0 20px 0;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.modal-numbers {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 15px;
+    margin: 20px 0;
+    backdrop-filter: blur(10px);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.modal-btn {
+    flex: 1;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 48px;
+}
+
+.modal-btn.primary {
+    background: linear-gradient(45deg, #4facfe, #00f2fe);
+    color: white;
+}
+
+.modal-btn.secondary {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.modal-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Numbers List Screen */
+.numbers-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    z-index: 900;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.numbers-screen.show {
+    display: flex;
+}
+
+.screen-header {
+    padding: 20px 20px 10px 20px;
+    background: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.screen-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+    text-align: center;
+}
+
+.screen-subtitle {
+    font-size: 14px;
+    opacity: 0.8;
+    margin: 5px 0 0 0;
+    text-align: center;
+}
+
+.screen-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.number-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 20px;
+    margin: 0 0 16px 0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.number-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.card-date {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+.numbers-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.number-bubble {
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.number-bubble.powerball {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
+    color: white;
+}
+
+.card-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.card-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.card-btn.delete {
+    background: rgba(255, 107, 107, 0.2);
+    color: #ff6b6b;
+}
+
+.card-btn.copy {
+    background: rgba(79, 172, 254, 0.2);
+    color: #4facfe;
+}
+
+/* Floating Action Button */
+.fab {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #4facfe, #00f2fe);
+    border: none;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+    transition: all 0.3s ease;
+    z-index: 9999;
+    display: none;
+    pointer-events: auto;
+}
+
+.fab.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 35px rgba(79, 172, 254, 0.6);
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.empty-icon {
+    font-size: 64px;
+    opacity: 0.3;
+    margin-bottom: 20px;
+}
+
+.empty-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+    opacity: 0.8;
+}
+
+.empty-subtitle {
+    font-size: 14px;
+    opacity: 0.6;
+    margin: 0;
+}
+
+/* Back Button */
+.back-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 960;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-btn.show {
+    display: flex;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+/* List Button (Main Screen) */
+.list-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.list-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+}
+
+.list-btn.has-numbers {
+    background: linear-gradient(45deg, #4facfe, #00f2fe);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.list-btn.has-numbers:hover {
+    background: linear-gradient(45deg, #4f9cfe, #00e2fe);
+}
