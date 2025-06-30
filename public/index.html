@@ -26,25 +26,48 @@
             height: 100%; margin: 0; padding: 0; overflow: hidden; background: #222;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
+        
         body {
             display: flex;
-            flex-direction: column;
             height: 100vh;
         }
+        
+        /* 🎯 기본 레이아웃 (데스크탑 우선) */
         #generationScreen {
-            flex: 0 0 55%;
-            min-height: 200px;
+            flex: 0 0 70%;
             position: relative;
             background: #222;
+            min-height: 100vh;
         }
+        
         #resultContainer {
-            flex: 1 1 45%;
+            flex: 1 1 30%;
             background: #181818;
             color: #fff;
-            padding: 16px;
+            padding: 24px;
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            border-left: 2px solid #333;
+        }
+        
+        /* 🎯 메시지 표시 영역 */
+        #messageDisplay {
+            height: 24px;
+            background: rgba(0, 0, 0, 0.9);
+            color: #00ffff;
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            border-left: 1px solid #333;
+            border-top: 1px solid #333;
+            border-bottom: 1px solid #333;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         
         /* 🎯 현재 진행 중인 조합 */
@@ -53,12 +76,14 @@
             padding-bottom: 16px;
             border-bottom: 2px solid #333;
         }
+        
         #currentTitle {
             font-size: 0.9em;
             color: #888;
             margin-bottom: 8px;
             text-align: center;
         }
+        
         #currentSlots {
             display: flex;
             gap: 12px;
@@ -72,6 +97,7 @@
             display: flex;
             flex-direction: column;
         }
+        
         #savedTitle {
             font-size: 0.9em;
             color: #888;
@@ -80,6 +106,7 @@
             justify-content: space-between;
             align-items: center;
         }
+        
         #combinationsList {
             flex: 1;
             overflow-y: auto;
@@ -106,8 +133,8 @@
         .combination-card {
             background: #262626;
             border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
             border: 1px solid #333;
             transition: all 0.3s ease;
         }
@@ -134,9 +161,9 @@
             background: none;
             border: 1px solid #555;
             color: #aaa;
-            padding: 4px 8px;
+            padding: 6px 12px;
             border-radius: 4px;
-            font-size: 0.7em;
+            font-size: 0.8em;
             cursor: pointer;
             transition: all 0.3s;
         }
@@ -156,18 +183,18 @@
         /* 🎯 번호 슬롯 스타일 */
         .slots {
             display: flex;
-            gap: 8px;
+            gap: 12px;
             justify-content: center;
         }
         .slot {
-            width: 32px;
-            height: 32px;
+            width: 38px;
+            height: 38px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
             font-weight: bold;
-            font-size: 0.9em;
+            font-size: 1em;
             border: 2px solid #00ffff;
             background: #222;
             color: #888;
@@ -187,9 +214,9 @@
         
         /* 현재 조합의 슬롯은 조금 더 크게 */
         #currentSlots .slot {
-            width: 40px;
-            height: 40px;
-            font-size: 1.1em;
+            width: 48px;
+            height: 48px;
+            font-size: 1.3em;
         }
         
         /* 🎯 빈 상태 표시 */
@@ -218,35 +245,6 @@
             padding: 20px;
             border-radius: 10px;
             display: none;
-        }
-        
-        
-        
-        
-        /* 🎯 간단한 메시지 표시 영역 */
-        #messageDisplay {
-            height: 24px;
-            background: rgba(0, 0, 0, 0.9);
-            color: #00ffff;
-            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            padding: 0 16px;
-            border-top: 1px solid #333;
-            border-bottom: 1px solid #333;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        @media (max-width: 600px) {
-            #generationScreen { min-height: 160px; }
-            #resultContainer { padding: 12px; }
-            .slots { gap: 6px; }
-            .slot { width: 28px; height: 28px; font-size: 0.8em; }
-            #currentSlots .slot { width: 36px; height: 36px; font-size: 1em; }
         }
         
         /* PWA 설치 프롬프트 */
@@ -280,6 +278,105 @@
         }
         .install-btn:hover {
             background: #333;
+        }
+        
+        /* 🚀 태블릿 반응형 (768px - 1024px) */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            #generationScreen {
+                flex: 0 0 65%;
+            }
+            #resultContainer {
+                flex: 1 1 35%;
+                padding: 20px;
+            }
+            .slots {
+                gap: 10px;
+            }
+            .slot {
+                width: 36px;
+                height: 36px;
+                font-size: 1em;
+            }
+            #currentSlots .slot {
+                width: 44px;
+                height: 44px;
+                font-size: 1.2em;
+            }
+        }
+        
+        /* 📱 모바일 반응형 (767px 이하) */
+        @media (max-width: 767px) {
+            body {
+                flex-direction: column;
+            }
+            #generationScreen {
+                flex: 0 0 55%;
+                min-height: 200px;
+            }
+            #resultContainer {
+                flex: 1 1 45%;
+                padding: 12px;
+                border-left: none;
+                border-top: 2px solid #333;
+            }
+            #messageDisplay {
+                border-left: 1px solid #333;
+                border-top: 1px solid #333;
+                border-bottom: 1px solid #333;
+                border-right: 1px solid #333;
+                font-size: 10px;
+                height: 20px;
+            }
+            .slots {
+                gap: 6px;
+            }
+            .slot {
+                width: 28px;
+                height: 28px;
+                font-size: 0.8em;
+            }
+            #currentSlots .slot {
+                width: 36px;
+                height: 36px;
+                font-size: 1em;
+            }
+            .combination-card {
+                padding: 10px;
+                margin-bottom: 6px;
+            }
+            .action-btn {
+                padding: 3px 6px;
+                font-size: 0.6em;
+            }
+        }
+        
+        /* 📱 매우 작은 화면 (480px 이하) */
+        @media (max-width: 480px) {
+            #generationScreen {
+                min-height: 180px;
+            }
+            #resultContainer {
+                padding: 8px;
+            }
+            .slots {
+                gap: 4px;
+            }
+            .slot {
+                width: 24px;
+                height: 24px;
+                font-size: 0.7em;
+            }
+            #currentSlots .slot {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9em;
+            }
+        }
+        
+        /* 💫 애니메이션 */
+        @keyframes blink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.3; }
         }
     </style>
 </head>
